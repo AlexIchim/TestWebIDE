@@ -1,0 +1,60 @@
+<edmx:Edmx
+    xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx"
+    xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata"
+    xmlns:sap="http://www.sap.com/Protocols/SAPData" Version="1.0">
+    <edmx:Reference
+        xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx" Uri="./IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_COMMON',Version='0001',SAP__Origin='LOCAL')/$value">
+        <edmx:Include Namespace="com.sap.vocabularies.Common.v1" Alias="Common"/>
+    </edmx:Reference>
+    <edmx:DataServices m:DataServiceVersion="2.0">
+        <Schema
+            xmlns="http://schemas.microsoft.com/ado/2008/09/edm" Namespace="ZHOA_C_DEPARTMENT_CDS" xml:lang="en" sap:schema-version="1">
+            <EntityType Name="ZHOA_C_APPROVERType" sap:label="Approver Consumption View" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="Manager_Id"/>
+                    <PropertyRef Name="Department_Id"/>
+                    <PropertyRef Name="Client"/>
+                </Key>
+                <Property Name="Manager_Id" Type="Edm.String" Nullable="false" MaxLength="12" sap:display-format="UpperCase" sap:label="User"/>
+                <Property Name="Department_Id" Type="Edm.Int32" Nullable="false" sap:label="department ID"/>
+                <Property Name="Client" Type="Edm.String" Nullable="false" MaxLength="3" sap:label="Client"/>
+                <Property Name="priority" Type="Edm.Byte" sap:label="Priority" sap:creatable="false" sap:updatable="false"/>
+                <NavigationProperty Name="to_Department" Relationship="ZHOA_C_DEPARTMENT_CDS.assoc_44E5C109B677E137C8E08DDB35E0159C" FromRole="FromRole_assoc_44E5C109B677E137C8E08DDB35E0159C" ToRole="ToRole_assoc_44E5C109B677E137C8E08DDB35E0159C"/>
+            </EntityType>
+            <EntityType Name="ZHOA_C_DEPARTMENTType" sap:label="Department Consumption View" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="Department_Id"/>
+                    <PropertyRef Name="Client"/>
+                </Key>
+                <Property Name="Department_Id" Type="Edm.Int32" Nullable="false" sap:label="department ID"/>
+                <Property Name="Client" Type="Edm.String" Nullable="false" MaxLength="3" sap:label="Client"/>
+                <Property Name="Department_Name" Type="Edm.String" MaxLength="40" sap:display-format="UpperCase" sap:label="Department Name"/>
+                <NavigationProperty Name="to_Approver" Relationship="ZHOA_C_DEPARTMENT_CDS.assoc_FA8335339D9DDC32277811B330732659" FromRole="FromRole_assoc_FA8335339D9DDC32277811B330732659" ToRole="ToRole_assoc_FA8335339D9DDC32277811B330732659"/>
+            </EntityType>
+            <Association Name="assoc_44E5C109B677E137C8E08DDB35E0159C" sap:content-version="1">
+                <End Type="ZHOA_C_DEPARTMENT_CDS.ZHOA_C_APPROVERType" Multiplicity="1" Role="FromRole_assoc_44E5C109B677E137C8E08DDB35E0159C"/>
+                <End Type="ZHOA_C_DEPARTMENT_CDS.ZHOA_C_DEPARTMENTType" Multiplicity="*" Role="ToRole_assoc_44E5C109B677E137C8E08DDB35E0159C"/>
+            </Association>
+            <Association Name="assoc_FA8335339D9DDC32277811B330732659" sap:content-version="1">
+                <End Type="ZHOA_C_DEPARTMENT_CDS.ZHOA_C_DEPARTMENTType" Multiplicity="1" Role="FromRole_assoc_FA8335339D9DDC32277811B330732659"/>
+                <End Type="ZHOA_C_DEPARTMENT_CDS.ZHOA_C_APPROVERType" Multiplicity="*" Role="ToRole_assoc_FA8335339D9DDC32277811B330732659"/>
+            </Association>
+            <EntityContainer Name="ZHOA_C_DEPARTMENT_CDS_Entities" m:IsDefaultEntityContainer="true" sap:supported-formats="atom json xlsx">
+                <EntitySet Name="ZHOA_C_APPROVER" EntityType="ZHOA_C_DEPARTMENT_CDS.ZHOA_C_APPROVERType" sap:content-version="1"/>
+                <EntitySet Name="ZHOA_C_DEPARTMENT" EntityType="ZHOA_C_DEPARTMENT_CDS.ZHOA_C_DEPARTMENTType" sap:content-version="1"/>
+                <AssociationSet Name="assoc_FA8335339D9DDC32277811B330732659" Association="ZHOA_C_DEPARTMENT_CDS.assoc_FA8335339D9DDC32277811B330732659" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
+                    <End EntitySet="ZHOA_C_DEPARTMENT" Role="FromRole_assoc_FA8335339D9DDC32277811B330732659"/>
+                    <End EntitySet="ZHOA_C_APPROVER" Role="ToRole_assoc_FA8335339D9DDC32277811B330732659"/>
+                </AssociationSet>
+                <AssociationSet Name="assoc_44E5C109B677E137C8E08DDB35E0159C" Association="ZHOA_C_DEPARTMENT_CDS.assoc_44E5C109B677E137C8E08DDB35E0159C" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
+                    <End EntitySet="ZHOA_C_APPROVER" Role="FromRole_assoc_44E5C109B677E137C8E08DDB35E0159C"/>
+                    <End EntitySet="ZHOA_C_DEPARTMENT" Role="ToRole_assoc_44E5C109B677E137C8E08DDB35E0159C"/>
+                </AssociationSet>
+            </EntityContainer>
+            <atom:link
+                xmlns:atom="http://www.w3.org/2005/Atom" rel="self" href="./sap/ZHOA_C_DEPARTMENT_CDS/$metadata"/>
+                <atom:link
+                    xmlns:atom="http://www.w3.org/2005/Atom" rel="latest-version" href="./sap/ZHOA_C_DEPARTMENT_CDS/$metadata"/>
+                </Schema>
+            </edmx:DataServices>
+        </edmx:Edmx>
